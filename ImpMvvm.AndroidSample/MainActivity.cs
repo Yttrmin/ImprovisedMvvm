@@ -18,6 +18,13 @@ namespace ImpMvvm.AndroidSample
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : BindableActivity<BasicTextEntriesViewModel>
     {
+        public MainActivity()
+        {
+            BindViewModelObservable.Subscribe(viewModel =>
+            {
+                BindOneWayToViewModel(viewModel.EntryProperty, FindViewById<EditText>(Resource.Id.editText).TextObservable());
+            });
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -53,11 +60,6 @@ namespace ImpMvvm.AndroidSample
             View view = (View) sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (View.IOnClickListener)null).Show();
-        }
-
-        protected override IEnumerable<Binding> BindToViewModel()
-        {
-            yield return BindOneWayToViewModel(vm => vm.EntryProperty, FindViewById<EditText>(Resource.Id.editText).TextObservable());
         }
     }
 }

@@ -23,9 +23,11 @@ namespace ImpMvvm.Droid
         private bool CanPerformBinding;
         private TViewModel ViewModel;
         private readonly List<Binding> Bindings = new List<Binding>();
+        private readonly Subject<TViewModel> BindViewModelSubject = new Subject<TViewModel>();
         private readonly ReplaySubject<Lifecycle.Event> LifecycleSubject = new ReplaySubject<Lifecycle.Event>(1);
 
         public IObservable<Lifecycle.Event> LifecycleObservable => LifecycleSubject.AsObservable();
+        public IObservable<TViewModel> BindViewModelObservable => BindViewModelSubject.AsObservable();
 
         public BindableActivity()
         {
@@ -39,7 +41,7 @@ namespace ImpMvvm.Droid
                 CanPerformBinding = true;
                 try
                 {
-                    Bindings.AddRange(BindToViewModel());
+                    BindViewModelSubject.OnNext(ViewModel);
                 }
                 finally
                 {
@@ -48,18 +50,16 @@ namespace ImpMvvm.Droid
             }
         }
 
-        public Binding BindOneWayToViewModel<T>(Func<TViewModel, BindableProperty<T>> propertySelector, IObservable<T> viewObservable)
+        public void BindOneWayToViewModel<T>(BindableProperty<T> bindableProperty, IObservable<T> viewObservable)
         {
             // TODO - Check if property is indeed a member of ViewModel.
             if (!CanPerformBinding)
             {
-                throw new InvalidOperationException($"Binding methods (including {nameof(BindOneWayToViewModel)} can only be called from an implementation of {nameof(BindToViewModel)}");
+                throw new InvalidOperationException($"Binding methods (including {nameof(BindOneWayToViewModel)} can only be called from observers of {nameof(BindViewModelObservable)}");
             }
-
-            var bindableProperty = propertySelector(ViewModel);
-            return OneWayToViewModelBinding<T>.FromBindableProperty(bindableProperty, viewObservable, ViewModel);
+            
+            var binding = OneWayToViewModelBinding<T>.FromBindableProperty(bindableProperty, viewObservable, ViewModel);
+            Bindings.Add(binding);
         }
-
-        protected abstract IEnumerable<Binding> BindToViewModel();
     }
 }
