@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BindableActivity.cs" />
     <Compile Include="LifecycleObserver.cs" />
+    <Compile Include="ObservableWidgetExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -11,7 +11,7 @@ namespace ImpMvvm
         CancellationToken CancellationToken { get; }
     }
 
-    public abstract class ViewModel<TViewModel> : IViewModel, IDisposable where TViewModel : IViewModel
+    public abstract class ViewModel : IViewModel, IDisposable
     {
         private readonly CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
 
@@ -51,10 +51,5 @@ namespace ImpMvvm
             // GC.SuppressFinalize(this);
         }
         #endregion
-    }
-
-    public class TestViewModel : ViewModel<TestViewModel>
-    {
-
     }
 }

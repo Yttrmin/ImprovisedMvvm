@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ImpMvvm.CoreSample
 {
-    public sealed class BasicTextEntriesViewModel : ViewModel<BasicTextEntriesViewModel>
+    public sealed class BasicTextEntriesViewModel : ViewModel
     {
         private readonly BindablePropertySubject<string> EntrySubject = new BindablePropertySubject<string>();
 

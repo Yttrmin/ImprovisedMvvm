@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
@@ -6,11 +8,15 @@ using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
+using ImpMvvm.CoreSample;
+using ImpMvvm.Droid;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace ImpMvvm.AndroidSample
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : BindableActivity<BasicTextEntriesViewModel>
     {
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -48,6 +54,11 @@ namespace ImpMvvm.AndroidSample
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (View.IOnClickListener)null).Show();
         }
-	}
+
+        protected override IEnumerable<Binding> BindToViewModel()
+        {
+            yield return BindOneWayToViewModel(vm => vm.EntryProperty, FindViewById<EditText>(Resource.Id.editText).TextObservable());
+        }
+    }
 }
 

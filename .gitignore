@@ -40,6 +40,7 @@ Generated\ Files/
 **/*.Droid/**/[Rr]esource.[Dd]esigner.cs
 **/Android/**/[Rr]esource.[Dd]esigner.cs
 **/Droid/**/[Rr]esource.[Dd]esigner.cs
+**/ImpMvvm.AndroidSample/**/[Rr]esource.[Dd]esigner.cs
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

@@ -48,7 +48,7 @@ namespace ImpMvvm.Droid
             }
         }
 
-        public void BindOneWayToViewModel<T>(Func<TViewModel, BindableProperty<T>> propertySelector, IObservable<T> viewObservable)
+        public Binding BindOneWayToViewModel<T>(Func<TViewModel, BindableProperty<T>> propertySelector, IObservable<T> viewObservable)
         {
             // TODO - Check if property is indeed a member of ViewModel.
             if (!CanPerformBinding)
@@ -57,8 +57,7 @@ namespace ImpMvvm.Droid
             }
 
             var bindableProperty = propertySelector(ViewModel);
-            var binding = OneWayToViewModelBinding<T>.FromBindableProperty(bindableProperty, viewObservable, ViewModel);
-            Bindings.Add(binding);
+            return OneWayToViewModelBinding<T>.FromBindableProperty(bindableProperty, viewObservable, ViewModel);
         }
 
         protected abstract IEnumerable<Binding> BindToViewModel();
